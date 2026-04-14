@@ -1,3 +1,45 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 
-# Create your views here.
+from .models import MasterClass
+from .serializers import MasterClassSerializer
+
+
+class MasterClassListCreateAPIView(APIView):
+    def get(self, request):
+        masterclasses = MasterClass.objects.all().order_by('-created_at')
+        serializer = MasterClassSerializer(masterclasses, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = MasterClassSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class MasterClassDetailAPIView(APIView):
+    def get(self, request, id):
+        masterclass = get_object_or_404(MasterClass, id=id)
+        serializer = MasterClassSerializer(masterclass)
+        return Response(serializer.data)
+
+    def put(self, request, id):
+        masterclass = get_object_or_404(MasterClass, id=id)
+        serializer = MasterClassSerializer(masterclass, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id):
+        masterclass = get_object_or_404(MasterClass, id=id)
+        masterclass.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
