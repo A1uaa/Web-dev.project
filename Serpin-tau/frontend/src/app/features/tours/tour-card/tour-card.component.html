@@ -1,0 +1,37 @@
+<!-- src/app/features/tours/tour-card/tour-card.component.html -->
+<div class="tour-card">
+  <div class="card-image">
+    <img [src]="tour.images[0]" [alt]="tour.title">
+    <span class="difficulty-badge" [class]="tour.difficulty.toLowerCase()">
+      <i class="fas fa-chart-line"></i> {{ tour.difficulty }}
+    </span>
+  </div>
+  
+  <div class="card-content">
+    <div class="card-header">
+      <h3>{{ tour.title }}</h3>
+      <div class="rating">
+        <i class="fas fa-star" style="color: #ffd700;"></i>
+        <span class="rating-value">{{ tour.rating }}</span>
+        <span class="reviews">({{ tour.reviews }})</span>
+      </div>
+    </div>
+    
+    <p class="location">
+      <i class="fas fa-map-marker-alt"></i> {{ tour.location }}
+    </p>
+    
+    <p class="description">{{ tour.description | slice:0:100 }}...</p>
+    
+    <div class="card-details">
+      <span class="duration">
+        <i class="far fa-clock"></i> {{ tour.duration }} Days
+      </span>
+      <span class="price">${{ tour.price }}</span>
+    </div>
+    
+    <a [routerLink]="['/tours', tour.id]" class="view-btn">
+      <i class="fas fa-eye"></i> View Tour
+    </a>
+  </div>
+</div>

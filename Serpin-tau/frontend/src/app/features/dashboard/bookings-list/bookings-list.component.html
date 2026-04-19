@@ -1,0 +1,42 @@
+<!-- src/app/features/dashboard/bookings-list/bookings-list.component.html -->
+<div class="bookings-container">
+  <div class="section-header">
+    <h2>Tour Bookings</h2>
+    <select [(ngModel)]="selectedTourId" (change)="onTourChange()" class="tour-select">
+      <option [value]="null">All Tours</option>
+      <option *ngFor="let tour of tours" [value]="tour.id">
+        {{ tour.title }}
+      </option>
+    </select>
+  </div>
+
+  <div class="bookings-list">
+    <div *ngFor="let booking of bookings" class="booking-item">
+      <div class="booking-info">
+        <div class="booking-header">
+          <h3>{{ booking.tourTitle }}</h3>
+          <span class="status-badge" [class]="booking.status">
+            {{ booking.status }}
+          </span>
+        </div>
+        <div class="booking-details">
+          <p><strong>Guest:</strong> {{ booking.userName }}</p>
+          <p><strong>Registered:</strong> {{ booking.registeredAt | date }}</p>
+          <p><strong>Booking ID:</strong> #{{ booking.id }}</p>
+        </div>
+      </div>
+      <div class="booking-actions" *ngIf="booking.status === 'confirmed'">
+        <button class="cancel-btn" (click)="updateStatus(booking, 'cancelled')">
+          Cancel Booking
+        </button>
+      </div>
+      <div class="booking-actions" *ngIf="booking.status === 'cancelled'">
+        <span class="cancelled-label">Cancelled</span>
+      </div>
+    </div>
+
+    <div *ngIf="bookings.length === 0" class="no-bookings">
+      <p>No bookings found for your tours.</p>
+    </div>
+  </div>
+</div>

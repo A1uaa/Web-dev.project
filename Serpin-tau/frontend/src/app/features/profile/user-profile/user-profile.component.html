@@ -1,0 +1,50 @@
+<!-- src/app/features/profile/user-profile/user-profile.component.html -->
+<div class="profile-container" *ngIf="user">
+  <div class="profile-header">
+    <div class="profile-avatar">
+      <img [src]="user.avatar || 'https://randomuser.me/api/portraits/lego/1.jpg'" alt="Avatar">
+    </div>
+    <div class="profile-info">
+      <h1>{{ user.name }}</h1>
+      <p class="email">{{ user.email }}</p>
+      <span class="role-badge" [class.organizer]="user.role === 'organizer'">
+        {{ user.role === 'organizer' ? 'Tour Organizer' : 'Adventurer' }}
+      </span>
+    </div>
+  </div>
+
+  <div class="profile-tabs">
+    <button [class.active]="activeTab === 'posts'" (click)="activeTab = 'posts'">My Posts</button>
+    <button [class.active]="activeTab === 'bookings'" (click)="activeTab = 'bookings'">My Bookings</button>
+  </div>
+
+  <div class="profile-content">
+    <div *ngIf="activeTab === 'posts'" class="posts-list">
+      <div *ngFor="let post of userPosts" class="profile-post">
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.content | slice:0:150 }}...</p>
+        <div class="post-meta">
+          <span>❤️ {{ post.likes }} likes</span>
+          <span>💬 {{ post.comments }} comments</span>
+          <span>{{ post.createdAt | date }}</span>
+        </div>
+      </div>
+      <div *ngIf="userPosts.length === 0" class="empty-state">
+        <p>You haven't created any posts yet.</p>
+        <button routerLink="/create-post">Create Your First Post</button>
+      </div>
+    </div>
+
+    <div *ngIf="activeTab === 'bookings'" class="bookings-list">
+      <div *ngFor="let booking of userBookings" class="profile-booking">
+        <h3>{{ booking.tourTitle }}</h3>
+        <span class="status">{{ booking.status }}</span>
+        <p>Registered on: {{ booking.registeredAt | date }}</p>
+      </div>
+      <div *ngIf="userBookings.length === 0" class="empty-state">
+        <p>You haven't booked any tours yet.</p>
+        <button routerLink="/tours">Explore Tours</button>
+      </div>
+    </div>
+  </div>
+</div>

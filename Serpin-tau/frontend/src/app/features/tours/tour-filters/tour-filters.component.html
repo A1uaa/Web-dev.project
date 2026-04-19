@@ -1,0 +1,36 @@
+<!-- src/app/features/tours/tour-filters/tour-filters.component.html -->
+<div class="filters-wrapper">
+  <h3>Filters</h3>
+  
+  <div class="filter-group">
+    <h4>Price Range</h4>
+    <label>
+      <input type="radio" name="price" value="all" [checked]="priceRange === 'all'" (change)="onPriceChange('all')"> All
+    </label>
+    <label>
+      <input type="radio" name="price" value="0-200" (change)="onPriceChange('0-200')"> $0 - $200
+    </label>
+    <label>
+      <input type="radio" name="price" value="200-500" (change)="onPriceChange('200-500')"> $200 - $500
+    </label>
+    <label>
+      <input type="radio" name="price" value="500+" (change)="onPriceChange('500+')"> $500+
+    </label>
+  </div>
+
+  <div class="filter-group">
+    <h4>Difficulty</h4>
+    <label *ngFor="let d of difficulties">
+      <input type="checkbox" [value]="d" (change)="onDifficultyChange(d, $event)"> {{ d }}
+    </label>
+  </div>
+
+  <div class="filter-group">
+    <h4>Duration</h4>
+    <label *ngFor="let dur of durations">
+      <input type="checkbox" [value]="dur" (change)="onDurationChange(dur, $event)"> {{ dur }}
+    </label>
+  </div>
+
+  <button class="reset-filters" (click)="resetFilters()">Reset Filters</button>
+</div>

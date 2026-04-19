@@ -1,0 +1,152 @@
+// src/app/features/tours/tour-card/tour-card.component.scss
+.tour-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  }
+}
+
+.card-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+  }
+  
+  &:hover img {
+    transform: scale(1.05);
+  }
+}
+
+.difficulty-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  
+  &.easy {
+    background: #48bb78;
+    color: white;
+  }
+  
+  &.moderate {
+    background: #ed8936;
+    color: white;
+  }
+  
+  &.challenging {
+    background: #e53e3e;
+    color: white;
+  }
+}
+
+.card-content {
+  padding: 1.25rem;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+  
+  h3 {
+    font-size: 1.1rem;
+    color: #2d3748;
+    margin: 0;
+  }
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  
+  .rating-value {
+    font-weight: 600;
+    color: #2d3748;
+  }
+  
+  .reviews {
+    color: #a0aec0;
+  }
+}
+
+.location {
+  color: #718096;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.description {
+  color: #4a5568;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+}
+
+.card-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #e2e8f0;
+  
+  .duration {
+    color: #4a5568;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  
+  .price {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #2d5a3b;
+  }
+}
+
+.view-btn {
+  display: block;
+  text-align: center;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #2d5a3b, #1a472a);
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(45,90,59,0.3);
+  }
+}

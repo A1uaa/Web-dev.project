@@ -1,0 +1,61 @@
+<!-- src/app/features/posts/post-list/post-list.component.html -->
+<div class="posts-page">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <h1>Community Posts</h1>
+    <p>Share your mountain experiences and read stories from fellow adventurers</p>
+  </div>
+
+  <div class="posts-container">
+    <!-- Sidebar -->
+    <aside class="posts-sidebar">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" [(ngModel)]="searchTerm" placeholder="Search posts...">
+      </div>
+      
+      <button class="create-post-btn" routerLink="/create-post" *ngIf="authService.isLoggedIn()">
+        <i class="fas fa-plus-circle"></i> Create Post
+      </button>
+
+      <div class="categories">
+        <h3>Popular Categories</h3>
+        <ul>
+          <li *ngFor="let cat of categories">
+            <a href="#">{{ cat }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="popular-tours">
+        <h3>Popular Tours</h3>
+        <div class="popular-item" *ngFor="let tour of popularTours">
+          <h4>{{ tour.title }}</h4>
+          <p>{{ tour.duration }} Days | ${{ tour.price }}</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Posts Feed -->
+    <main class="posts-feed">
+      <div class="posts-header">
+        <h2>Recent Adventures</h2>
+      </div>
+
+      <div class="posts-list">
+        <app-post-card 
+          *ngFor="let post of filteredPosts" 
+          [post]="post"
+          (like)="handleLike($event)"
+          (comment)="openPostDetail($event)">
+        </app-post-card>
+      </div>
+
+      <div *ngIf="filteredPosts.length === 0" class="no-posts">
+        <i class="fas fa-newspaper"></i>
+        <p>No posts found. Be the first to share your adventure!</p>
+        <button routerLink="/create-post" class="create-first">Create First Post</button>
+      </div>
+    </main>
+  </div>
+</div>

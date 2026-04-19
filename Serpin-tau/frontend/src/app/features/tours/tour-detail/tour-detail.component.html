@@ -1,0 +1,119 @@
+<div class="tour-detail" *ngIf="tour">
+  <div class="breadcrumb">
+    <a routerLink="/">Home</a> / <a routerLink="/tours">Tours</a> / <span>{{ tour.title }}</span>
+  </div>
+
+  <div class="hero-image">
+    <img [src]="tour.images[0]" [alt]="tour.title">
+  </div>
+
+  <div class="detail-container">
+    <div class="detail-main">
+      <h1>{{ tour.title }}</h1>
+      
+      <div class="rating-section">
+        <div class="stars-container">
+          <span *ngFor="let star of [1,2,3,4,5]" 
+                class="star" 
+                [class.filled]="star <= hoverRating" 
+                [class.selected]="star <= currentRating"
+                (mouseenter)="hoverRating = star"
+                (mouseleave)="hoverRating = 0"
+                (click)="setRating(star)">
+            <i class="far fa-star" [class.fas]="star <= hoverRating || star <= currentRating"></i>
+          </span>
+          <span class="rating-value">{{ currentRating || tour.rating }}</span>
+          <span class="reviews">({{ tour.reviews }} reviews)</span>
+        </div>
+        <p class="rating-message" *ngIf="userHasRated">Thank you for your rating!</p>
+        <p class="rating-message" *ngIf="!authService.isLoggedIn()">
+          <a routerLink="/login">Login</a> to rate this tour
+        </p>
+      </div>
+
+      <div class="overview">
+        <h2>Overview</h2>
+        <p>{{ tour.description }}</p>
+      </div>
+
+      <div class="tour-details">
+        <h2>Tour Details</h2>
+        <div class="details-grid">
+          <div class="detail-item">
+            <i class="far fa-calendar-alt"></i>
+            <span class="label">Duration</span>
+            <span class="value">{{ tour.duration }} Days</span>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-chart-line"></i>
+            <span class="label">Difficulty</span>
+            <span class="value">{{ tour.difficulty }}</span>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span class="label">Location</span>
+            <span class="value">{{ tour.location }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dates-section">
+        <h2>Upcoming Dates</h2>
+        <div class="dates-list">
+          <div *ngFor="let date of tour.dates" class="date-item" 
+               [class.selected]="selectedDate === date" 
+               [class.fully-booked]="isDateFullyBooked(date)"
+               (click)="!isDateFullyBooked(date) && selectDate(date)">
+            <i class="far fa-calendar-check"></i> {{ date }}
+            <span class="spots-badge" *ngIf="!isDateFullyBooked(date)">
+              {{ getAvailableSpots(date) }} spots left
+            </span>
+            <span class="fully-booked-badge" *ngIf="isDateFullyBooked(date)">
+              Fully Booked
+            </span>
+          </div>
+        </div>
+        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+      </div>
+
+      <div class="highlights-section">
+        <h2>Highlights</h2>
+        <ul class="highlights-list">
+          <li *ngFor="let highlight of tour.highlights">
+            <i class="fas fa-check-circle"></i> {{ highlight }}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <aside class="detail-sidebar">
+      <div class="price-card">
+        <div class="price">${{ tour.price }}</div>
+        
+        <div class="availability" 
+             [class.low-stock]="(getAvailableSpots(selectedDate) <= 3) && (getAvailableSpots(selectedDate) > 0) && selectedDate">
+          <span *ngIf="selectedDate && !isDateFullyBooked(selectedDate)">
+            <i class="fas fa-users"></i>
+            <span class="spots-left">{{ getAvailableSpots(selectedDate) }} spots left for this date</span>
+          </span>
+          <span *ngIf="selectedDate && isDateFullyBooked(selectedDate)" class="fully-booked">
+            <i class="fas fa-ban"></i> Fully Booked for this date
+          </span>
+        </div>
+        
+        <button class="register-btn" (click)="registerForTour()" 
+                [disabled]="!selectedDate || isDateFullyBooked(selectedDate)">
+          <i class="fas fa-ticket-alt"></i> Register for Tour
+        </button>
+        
+        <div class="signup-prompt" *ngIf="!authService.isLoggedIn()">
+          <p>Already have an account? <a routerLink="/login">Login</a></p>
+        </div>
+        
+        <div *ngIf="successMessage" class="success-message">
+          <i class="fas fa-check-circle"></i> {{ successMessage }}
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>

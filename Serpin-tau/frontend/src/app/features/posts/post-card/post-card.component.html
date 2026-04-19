@@ -1,0 +1,33 @@
+<!-- src/app/features/posts/post-card/post-card.component.html -->
+<div class="post-card">
+  <!-- Шапка с аватаркой и именем -->
+  <div class="post-header">
+    <img [src]="post.authorAvatar || 'https://randomuser.me/api/portraits/lego/1.jpg'" alt="Author" class="avatar">
+    <div class="post-author">
+      <h4>{{ post.authorName }}</h4>
+      <span class="post-date">{{ post.createdAt | date: 'MMM d, yyyy' }}</span>
+    </div>
+  </div>
+  
+  <!-- Заголовок и текст поста -->
+  <h3 class="post-title">{{ post.title }}</h3>
+  <p class="post-content">{{ post.content }}</p>
+  
+  <!-- Фото поста (если есть) -->
+  <div class="post-image" *ngIf="post.image">
+    <img [src]="post.image" [alt]="post.title">
+  </div>
+  
+  <!-- Действия: лайк и комментарии -->
+  <div class="post-actions">
+    <button class="like-btn" (click)="onLikeClick()">
+      <i class="far fa-heart" [class.fas]="isLiked" [class.liked]="isLiked"></i>
+      <span>{{ post.likes }}</span>
+    </button>
+    
+    <button class="comment-btn" (click)="openComments()">
+      <i class="far fa-comment"></i>
+      <span>{{ post.comments }}</span>
+    </button>
+  </div>
+</div>

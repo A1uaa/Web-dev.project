@@ -1,0 +1,106 @@
+// src/app/features/posts/post-card/post-card.component.scss
+.post-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: transform 0.3s;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+}
+
+/* Шапка с аватаркой */
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #2d5a3b;
+}
+
+.post-author h4 {
+  font-size: 1rem;
+  margin: 0 0 4px 0;
+  color: #2d3748;
+}
+
+.post-date {
+  font-size: 0.75rem;
+  color: #a0aec0;
+}
+
+/* Заголовок и текст */
+.post-title {
+  font-size: 1.2rem;
+  margin: 0 0 0.75rem 0;
+  color: #2d3748;
+}
+
+.post-content {
+  color: #4a5568;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+/* Фото поста */
+.post-image {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  
+  img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+  }
+}
+
+/* Кнопки действий */
+.post-actions {
+  display: flex;
+  gap: 1.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.like-btn, .comment-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+  color: #718096;
+  
+  &:hover {
+    background: #f7fafc;
+  }
+}
+
+.like-btn i {
+  font-size: 1.1rem;
+  color: #718096;
+  
+  &.fas, &.liked {
+    color: #e53e3e;
+  }
+}
+
+.comment-btn i {
+  font-size: 1.1rem;
+}

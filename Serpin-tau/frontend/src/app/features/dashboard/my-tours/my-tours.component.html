@@ -1,0 +1,44 @@
+<!-- src/app/features/dashboard/my-tours/my-tours.component.html -->
+<div class="my-tours-container">
+  <div class="section-header">
+    <h2>My Tours</h2>
+    <div class="search-box">
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm" 
+        placeholder="Search tours..."
+        class="search-input">
+    </div>
+  </div>
+
+  <div class="tours-list">
+    <div *ngFor="let tour of filteredTours" class="tour-item">
+      <div class="tour-info">
+        <h3>{{ tour.title }}</h3>
+        <div class="tour-meta">
+          <span>📍 {{ tour.location }}</span>
+          <span>💰 ${{ tour.price }}</span>
+          <span>📅 {{ tour.duration }} days</span>
+          <span class="difficulty" [class]="tour.difficulty.toLowerCase()">
+            {{ tour.difficulty }}
+          </span>
+        </div>
+        <div class="booking-stats">
+          <div class="progress-bar">
+            <div class="progress" [style.width.%]="(tour.bookings / tour.maxBookings) * 100"></div>
+          </div>
+          <span>{{ tour.bookings }} / {{ tour.maxBookings }} booked</span>
+        </div>
+      </div>
+      <div class="tour-actions">
+        <button class="edit-btn" [routerLink]="['/edit-tour', tour.id]">✏️ Edit</button>
+        <button class="delete-btn" (click)="deleteTour(tour.id)">🗑️ Delete</button>
+      </div>
+    </div>
+
+    <div *ngIf="filteredTours.length === 0" class="no-tours">
+      <p>No tours found. Create your first tour!</p>
+      <button routerLink="/create-tour" class="create-btn">+ Create Tour</button>
+    </div>
+  </div>
+</div>

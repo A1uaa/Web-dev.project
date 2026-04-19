@@ -1,0 +1,159 @@
+// src/app/features/dashboard/organizer-dashboard/organizer-dashboard.component.scss
+.dashboard-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.dashboard-header {
+  margin-bottom: 2rem;
+  
+  h1 {
+    font-size: 1.8rem;
+    color: #2d3748;
+    margin-bottom: 0.25rem;
+  }
+  
+  p {
+    color: #718096;
+  }
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, #2d5a3b, #1a472a);
+  color: white;
+  padding: 1.5rem;
+  border-radius: 16px;
+  text-align: center;
+  
+  .stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .stat-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
+}
+
+.create-tour-section {
+  margin-bottom: 2rem;
+}
+
+.create-tour-btn {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #2d5a3b, #1a472a);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tours-table-container {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  
+  h2 {
+    font-size: 1.3rem;
+    color: #2d3748;
+  }
+}
+
+.table-controls {
+  display: flex;
+  gap: 1rem;
+  
+  input, select {
+    padding: 0.5rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+  }
+}
+
+.tours-table {
+  width: 100%;
+  border-collapse: collapse;
+  
+  th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  
+  th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #2d3748;
+  }
+}
+
+.status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  background: #c6f6d5;
+  color: #22543d;
+  
+  &.full {
+    background: #fed7d7;
+    color: #742a2a;
+  }
+}
+
+.manage-btn, .delete-btn {
+  padding: 0.25rem 0.75rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 0.5rem;
+}
+
+.manage-btn {
+  background: #2d5a3b;
+  color: white;
+}
+
+.delete-btn {
+  background: #e53e3e;
+  color: white;
+}
+
+.no-tours {
+  text-align: center;
+  padding: 3rem;
+  color: #718096;
+}
+
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .table-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .tours-table {
+    font-size: 0.8rem;
+  }
+}

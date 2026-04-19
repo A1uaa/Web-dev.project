@@ -1,0 +1,77 @@
+<!-- src/app/features/posts/post-detail/post-detail.component.html -->
+<div class="post-detail-page" *ngIf="post">
+  <!-- Кнопка назад -->
+  <div class="back-nav">
+    <a routerLink="/posts" class="back-btn">
+      <i class="fas fa-arrow-left"></i> Back to all posts
+    </a>
+  </div>
+
+  <!-- Сам пост (всегда сверху) -->
+  <div class="post-container">
+    <div class="post-header">
+      <img [src]="post.authorAvatar || 'https://randomuser.me/api/portraits/lego/1.jpg'" alt="Author" class="avatar">
+      <div class="post-author">
+        <h3>{{ post.authorName }}</h3>
+        <span class="post-date">{{ post.createdAt | date: 'MMMM d, yyyy' }}</span>
+      </div>
+    </div>
+
+    <h1 class="post-title">{{ post.title }}</h1>
+    
+    <div class="post-image" *ngIf="post.image">
+      <img [src]="post.image" [alt]="post.title">
+    </div>
+    
+    <div class="post-content">
+      <p>{{ post.content }}</p>
+    </div>
+    
+    <div class="post-actions">
+      <button class="like-btn" (click)="likePost()">
+        <i class="far fa-heart" [class.fas]="isPostLiked" [class.liked]="isPostLiked"></i>
+        <span>{{ post.likes }} Likes</span>
+      </button>
+      <button class="comment-btn">
+        <i class="far fa-comment"></i>
+        <span>{{ comments.length }} Comments</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Комментарии (под постом) -->
+  <div class="comments-section">
+    <h3>Comments ({{ comments.length }})</h3>
+    
+    <!-- Список комментариев -->
+    <div class="comments-list">
+      <div *ngFor="let comment of comments" class="comment-item">
+        <img [src]="comment.authorAvatar || 'https://randomuser.me/api/portraits/lego/1.jpg'" alt="Avatar" class="comment-avatar">
+        <div class="comment-content">
+          <div class="comment-header">
+            <strong class="comment-author">{{ comment.authorName }}</strong>
+          </div>
+          <div class="comment-date">{{ comment.createdAt | date: 'MMM d, yyyy' }}</div>
+          <p class="comment-text">{{ comment.content }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Форма добавления комментария -->
+    <div class="add-comment" *ngIf="authService.isLoggedIn()">
+      <h4>Add a Comment</h4>
+      <textarea [(ngModel)]="newComment" placeholder="Share your thoughts..." rows="3"></textarea>
+      <button (click)="addComment()" [disabled]="!newComment.trim()">
+        <i class="fas fa-paper-plane"></i> Post Comment
+      </button>
+    </div>
+    
+    <div class="login-prompt" *ngIf="!authService.isLoggedIn()">
+      <p><i class="fas fa-lock"></i> <a routerLink="/login">Login</a> to leave a comment</p>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!post" class="loading">
+  <i class="fas fa-spinner fa-spin"></i> Loading post...
+</div>

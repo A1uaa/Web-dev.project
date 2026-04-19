@@ -1,0 +1,99 @@
+<!-- src/app/features/dashboard/organizer-dashboard/organizer-dashboard.component.html -->
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1>Tour Dashboard</h1>
+    <p>Dashboard / My Tours</p>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-value">{{ myTours.length }}</div>
+      <div class="stat-label">Total Tours</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ totalBookings }}</div>
+      <div class="stat-label">Total Bookings</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ upcomingTours }}</div>
+      <div class="stat-label">Upcoming Tours</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">4.8 ★★★★★</div>
+      <div class="stat-label">Rating (1200 Reviews)</div>
+    </div>
+  </div>
+
+  <!-- Create Tour Button -->
+  <div class="create-tour-section">
+    <button class="create-tour-btn" routerLink="/create-tour">➕ Create New Tour</button>
+  </div>
+
+  <!-- Tabs -->
+  <div class="dashboard-tabs">
+    <button [class.active]="activeTab === 'tours'" (click)="activeTab = 'tours'">
+      My Tours
+    </button>
+    <button [class.active]="activeTab === 'bookings'" (click)="activeTab = 'bookings'">
+      Bookings
+    </button>
+  </div>
+
+  <!-- Tab Content -->
+  <div class="tab-content">
+    <!-- My Tours Tab -->
+    <div *ngIf="activeTab === 'tours'" class="tours-table-container">
+      <div class="table-header">
+        <h2>My Tours</h2>
+        <div class="table-controls">
+          <input type="text" [(ngModel)]="searchTerm" placeholder="Search tours...">
+          <select [(ngModel)]="filterStatus">
+            <option value="all">All Tours</option>
+            <option value="available">Available</option>
+            <option value="full">Full</option>
+          </select>
+        </div>
+      </div>
+
+      <table class="tours-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Bookings</th>
+            <th>Dates</th>
+            <th>Booked/Total</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tour of filteredTours">
+            <td><strong>{{ tour.title }}</strong></td>
+            <td>{{ tour.bookings }}</td>
+            <td>{{ tour.dates[0] }}</td>
+            <td>{{ tour.bookings }} / {{ tour.maxBookings }}</td>
+            <td>
+              <span class="status" [class.full]="tour.bookings >= tour.maxBookings">
+                {{ tour.bookings >= tour.maxBookings ? 'Full' : 'Available' }}
+              </span>
+            </td>
+            <td>
+              <button class="manage-btn" [routerLink]="['/edit-tour', tour.id]">Edit</button>
+              <button class="delete-btn" (click)="deleteTour(tour.id)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="filteredTours.length === 0" class="no-tours">
+        <p>No tours found. Create your first tour!</p>
+      </div>
+    </div>
+
+    <!-- Bookings Tab -->
+    <div *ngIf="activeTab === 'bookings'" class="bookings-placeholder">
+      <p>Bookings feature coming soon...</p>
+    </div>
+  </div>
+</div>

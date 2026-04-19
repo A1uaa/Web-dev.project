@@ -1,0 +1,69 @@
+<!-- src/app/features/tours/tour-list/tour-list.component.html -->
+<div class="tours-page">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <h1>Explore Mountain Tours</h1>
+    <p>Find your next adventure in the world's most breathtaking mountains</p>
+    <div class="hero-search">
+      <input type="text" [(ngModel)]="searchTerm" (input)="onSearch()" placeholder="Search destinations...">
+      <button (click)="onSearch()">Find Tours</button>
+    </div>
+  </div>
+
+  <div class="tours-container">
+    <!-- Filters Sidebar -->
+    <aside class="filters-sidebar">
+      <h3>Filters</h3>
+      
+      <div class="filter-group">
+        <h4>Price Range</h4>
+        <label><input type="radio" name="price" value="all" [checked]="selectedPriceRange === 'all'" (change)="onPriceChange('all')"> All</label>
+        <label><input type="radio" name="price" value="0-200" (change)="onPriceChange('0-200')"> $0 - $200</label>
+        <label><input type="radio" name="price" value="200-500" (change)="onPriceChange('200-500')"> $200 - $500</label>
+        <label><input type="radio" name="price" value="500+" (change)="onPriceChange('500+')"> $500+</label>
+      </div>
+
+      <div class="filter-group">
+        <h4>Difficulty</h4>
+        <label *ngFor="let d of difficulties">
+          <input type="checkbox" [value]="d" (change)="onDifficultyChange(d)"> {{ d }}
+        </label>
+      </div>
+
+      <div class="filter-group">
+        <h4>Duration</h4>
+        <label><input type="checkbox"> 1-3 Days</label>
+        <label><input type="checkbox"> 4-7 Days</label>
+        <label><input type="checkbox"> 8+ Days</label>
+      </div>
+
+      <button class="apply-filters" (click)="applyFilters()">Apply Filters</button>
+    </aside>
+
+    <!-- Tours Grid -->
+    <main class="tours-main">
+      <div class="tours-header">
+        <h2>Mountain Tours</h2>
+        <div class="sort-section">
+          <label>Sort by:</label>
+          <select [(ngModel)]="sortBy" (change)="onSortChange()">
+            <option *ngFor="let opt of sortOptions" [value]="opt.value">{{ opt.label }}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Кнопка Create Tour для организатора - добавить вверху справа -->
+      <div class="create-tour-wrapper" *ngIf="authService.isOrganizer()">
+        <button class="create-tour-btn" routerLink="/create-tour">+ Create Tour</button>
+      </div>
+
+      <div class="tours-grid">
+        <app-tour-card *ngFor="let tour of filteredTours" [tour]="tour"></app-tour-card>
+      </div>
+
+      <div *ngIf="filteredTours.length === 0" class="no-results">
+        <p>No tours found matching your criteria.</p>
+      </div>
+    </main>
+  </div>
+</div>
