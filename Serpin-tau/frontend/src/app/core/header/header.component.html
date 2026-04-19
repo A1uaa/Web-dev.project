@@ -1,0 +1,67 @@
+<!-- src/app/core/header/header.component.html -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-logo">
+      <a routerLink="/tours">
+        <i class="fas fa-mountain"></i>
+        <span>MountainTours</span>
+      </a>
+    </div>
+
+    <div class="nav-menu">
+      <a routerLink="/tours" routerLinkActive="active">
+        <i class="fas fa-map-marked-alt"></i> Tours
+      </a>
+      <a routerLink="/posts" routerLinkActive="active">
+        <i class="fas fa-newspaper"></i> Community
+      </a>
+      <a *ngIf="isOrganizer()" routerLink="/dashboard" routerLinkActive="active">
+        <i class="fas fa-chart-line"></i> Dashboard
+      </a>
+      <a *ngIf="isOrganizer()" routerLink="/create-tour" routerLinkActive="active" class="create-btn">
+        <i class="fas fa-plus-circle"></i> Create Tour
+      </a>
+    </div>
+
+    <div class="nav-user">
+      <ng-container *ngIf="currentUser; else loginBlock">
+        <div class="user-menu" (click)="toggleMenu()">
+          <img [src]="currentUser.avatar || 'https://randomuser.me/api/portraits/lego/1.jpg'" alt="Avatar">
+          <span>{{ currentUser.name }}</span>
+          <i class="fas fa-chevron-down arrow"></i>
+        </div>
+        <div class="dropdown" [class.show]="isMenuOpen">
+          <a routerLink="/profile"><i class="fas fa-user"></i> Profile</a>
+          <a *ngIf="isOrganizer()" routerLink="/dashboard"><i class="fas fa-chart-line"></i> Dashboard</a>
+          <hr>
+          <button (click)="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+      </ng-container>
+      <ng-template #loginBlock>
+        <a routerLink="/login" class="login-btn"><i class="fas fa-sign-in-alt"></i> Login</a>
+        <a routerLink="/register" class="register-btn"><i class="fas fa-user-plus"></i> Sign Up</a>
+      </ng-template>
+    </div>
+
+    <div class="mobile-menu-btn" (click)="toggleMenu()">
+      <i class="fas fa-bars"></i>
+    </div>
+  </div>
+
+  <div class="mobile-menu" [class.open]="isMenuOpen">
+    <a routerLink="/tours" (click)="toggleMenu()"><i class="fas fa-map-marked-alt"></i> Tours</a>
+    <a routerLink="/posts" (click)="toggleMenu()"><i class="fas fa-newspaper"></i> Community</a>
+    <a *ngIf="isOrganizer()" routerLink="/dashboard" (click)="toggleMenu()"><i class="fas fa-chart-line"></i> Dashboard</a>
+    <a *ngIf="isOrganizer()" routerLink="/create-tour" (click)="toggleMenu()"><i class="fas fa-plus-circle"></i> Create Tour</a>
+    <ng-container *ngIf="!currentUser; else mobileUser">
+      <hr>
+      <a routerLink="/login" (click)="toggleMenu()"><i class="fas fa-sign-in-alt"></i> Login</a>
+      <a routerLink="/register" (click)="toggleMenu()"><i class="fas fa-user-plus"></i> Sign Up</a>
+    </ng-container>
+    <ng-template #mobileUser>
+      <hr>
+      <a routerLink="/profile" (click)="toggleMenu()"><i class="fas fa-user"></i> Profile</a>
+      <button (click)="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </ng-template>
+  </div>
+</nav>
