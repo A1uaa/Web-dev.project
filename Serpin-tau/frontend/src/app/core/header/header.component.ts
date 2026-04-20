@@ -1,4 +1,3 @@
-// src/app/core/header/header.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -8,7 +7,7 @@ import { User } from '../../models/user.model';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterModule], 
+  imports: [CommonModule, RouterModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
@@ -29,8 +28,15 @@ export class HeaderComponent implements OnInit {
   }
 
   logout(): void {
-    this.authService.logout();
-    this.isMenuOpen = false;
+    this.authService.logout().subscribe({
+      next: () => {
+        this.isMenuOpen = false;
+      },
+      error: () => {
+        this.authService.forceLogout();
+        this.isMenuOpen = false;
+      }
+    });
   }
 
   isOrganizer(): boolean {
