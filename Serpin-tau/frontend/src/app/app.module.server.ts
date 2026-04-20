@@ -1,14 +1,10 @@
-// src/app/app.module.server.ts
-import { NgModule } from '@angular/core';
-import { ServerModule } from '@angular/platform-server';
-import { AppModule } from './app.module';
-import { AppComponent } from './app.component';
+import { ApplicationConfig } from '@angular/core';
+import { provideServerRendering } from '@angular/platform-server';
 
-@NgModule({
-  imports: [
-    AppModule,
-    ServerModule,
-  ],
-  bootstrap: [AppComponent],
-})
-export class AppServerModule {}
+const serverConfig: ApplicationConfig = {
+  providers: [
+    provideServerRendering(),
+  ]
+};
+
+export default serverConfig;

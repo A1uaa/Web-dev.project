@@ -33,7 +33,6 @@ export class HeaderComponent implements OnInit {
         this.isMenuOpen = false;
       },
       error: () => {
-        this.authService.forceLogout();
         this.isMenuOpen = false;
       }
     });

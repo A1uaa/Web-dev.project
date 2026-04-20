@@ -12,9 +12,10 @@ import { AuthService } from '../../../services/auth.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  email = '';
+  username = '';
   password = '';
   error = '';
+  loading = false;
 
   constructor(
     private authService: AuthService,
@@ -23,11 +24,17 @@ export class LoginComponent {
 
   onSubmit(): void {
     this.error = '';
-  
-    if (this.authService.login(this.email, this.password)) {
-      this.router.navigate(['/tours']);
-    } else {
-      this.error = 'Invalid email or password';
-    }
-  };
+    this.loading = true;
+
+    this.authService.login(this.username, this.password).subscribe({
+      next: (user) => {
+        this.loading = false;
+        this.router.navigate(['/tours']);
+      },
+      error: (err: Error) => {
+        this.loading = false;
+        this.error = err.message || 'Invalid username or password';
+      }
+    });
+  }
 }

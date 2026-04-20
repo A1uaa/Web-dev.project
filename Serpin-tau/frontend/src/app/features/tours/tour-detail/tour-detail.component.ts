@@ -39,9 +39,8 @@ export class TourDetailComponent implements OnInit {
   }
 
   registerForTour(): void {
-    if (!this.authService.isLoggedIn()) {
+    if (!this.authService.getCurrentUser()) {
       this.router.navigate(['/login']);
-      return;
     }
 
     if (!this.selectedDate) {

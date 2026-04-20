@@ -13,12 +13,15 @@ import { AuthService } from '../../../services/auth.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
-  name = '';
+  username = '';
+  firstName = '';
+  lastName = '';
   email = '';
   password = '';
   confirmPassword = '';
   selectedRole: 'user' | 'organizer' = 'user';
   error = '';
+  loading = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -33,12 +36,30 @@ export class RegisterComponent {
       return;
     }
 
-    const success = this.authService.register(this.name, this.email, this.password, this.selectedRole);
-    
-    if (success) {
-      this.router.navigate(['/tours']);
-    } else {
-      this.error = 'Email already exists';
+    if (!this.username.trim()) {
+      this.error = 'Username is required';
+      return;
     }
+
+    this.loading = true;
+    this.error = '';
+
+    this.authService.register(
+      this.username,
+      this.email,
+      this.password,
+      this.firstName,
+      this.lastName,
+      this.selectedRole
+    ).subscribe({
+      next: (user) => {
+        this.loading = false;
+        this.router.navigate(['/tours']);
+      },
+      error: (err: Error) => {
+        this.loading = false;
+        this.error = err.message || 'Registration failed. Please try again.';
+      }
+    });
   }
 }
