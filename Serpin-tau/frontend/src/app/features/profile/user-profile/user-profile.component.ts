@@ -33,6 +33,20 @@ export class UserProfileComponent implements OnInit {
     this.user = this.authService.getCurrentUser();
     if (this.user) {
       this.userPosts = this.postService.getPostsByUser(this.user.id);
+      this.loadBookings();
+    }
+  }
+
+  loadBookings(): void {
+    if (this.user) {
+      this.userBookings = this.tourService.getBookingsByUser(this.user.id);
+    }
+  }
+
+  cancelBooking(bookingId: number): void {
+    if (confirm('Are you sure you want to cancel this booking?')) {
+      this.tourService.cancelBooking(bookingId);
+      this.loadBookings(); // Refresh the list
     }
   }
 }

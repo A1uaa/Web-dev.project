@@ -36,10 +36,18 @@
     </div>
 
     <div *ngIf="activeTab === 'bookings'" class="bookings-list">
-      <div *ngFor="let booking of userBookings" class="profile-booking">
-        <h3>{{ booking.tourTitle }}</h3>
-        <span class="status">{{ booking.status }}</span>
-        <p>Registered on: {{ booking.registeredAt | date }}</p>
+      <div *ngFor="let booking of userBookings" class="profile-booking" [ngClass]="{'cancelled-booking': booking.status === 'cancelled'}">
+        <div class="booking-header">
+          <h3>{{ booking.tourTitle }}</h3>
+          <span class="status" [ngClass]="booking.status">{{ booking.status }}</span>
+        </div>
+        <div class="booking-details">
+          <p><strong>Registered on:</strong> {{ booking.registeredAt | date }}</p>
+          <p *ngIf="booking.selectedDate"><strong>Tour Date:</strong> {{ booking.selectedDate }}</p>
+        </div>
+        <div class="booking-actions" *ngIf="booking.status === 'confirmed'">
+          <button class="btn-cancel" (click)="cancelBooking(booking.id)">Cancel Booking</button>
+        </div>
       </div>
       <div *ngIf="userBookings.length === 0" class="empty-state">
         <p>You haven't booked any tours yet.</p>

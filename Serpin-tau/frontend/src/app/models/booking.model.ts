@@ -5,6 +5,7 @@ export interface Booking {
   tourId: number;
   userName: string;
   tourTitle: string;
+  selectedDate?: string;
   status: 'pending' | 'confirmed' | 'cancelled';
   registeredAt: string;
 }

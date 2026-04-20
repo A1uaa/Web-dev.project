@@ -74,6 +74,98 @@
   padding: 1.5rem;
 }
 
+.bookings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  .profile-booking {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    
+    &.cancelled-booking {
+      opacity: 0.6;
+      background-color: var(--bg-primary);
+      border: 1px dashed var(--border-color);
+    }
+    
+    .booking-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      
+      h3 {
+        margin: 0;
+        font-size: 1.25rem;
+        color: var(--text-primary);
+      }
+      
+      .status {
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        text-transform: capitalize;
+        
+        &.confirmed {
+          background-color: rgba(39, 174, 96, 0.1);
+          color: #27ae60;
+        }
+        
+        &.cancelled {
+          background-color: rgba(231, 76, 60, 0.1);
+          color: #e74c3c;
+        }
+        
+        &.pending {
+          background-color: rgba(243, 156, 18, 0.1);
+          color: #f39c12;
+        }
+      }
+    }
+    
+    .booking-details {
+      margin-bottom: 1rem;
+      
+      p {
+        margin: 0.5rem 0;
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        
+        strong {
+          color: var(--text-primary);
+        }
+      }
+    }
+    
+    .booking-actions {
+      display: flex;
+      justify-content: flex-end;
+      
+      .btn-cancel {
+        background-color: transparent;
+        color: #e74c3c;
+        border: 1px solid #e74c3c;
+        border-radius: var(--radius-sm);
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        
+        &:hover {
+          background-color: rgba(231, 76, 60, 0.1);
+        }
+      }
+    }
+  }
+}
+
 .profile-post, .profile-booking {
   padding: 1rem;
   border-bottom: 1px solid #e2e8f0;

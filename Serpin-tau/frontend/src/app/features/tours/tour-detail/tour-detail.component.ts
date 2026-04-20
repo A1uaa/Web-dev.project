@@ -60,7 +60,7 @@ export class TourDetailComponent implements OnInit {
         return;
       }
       
-      this.tourService.bookTourByDate(user.id, this.tour.id, this.selectedDate);
+      this.tourService.bookTourByDate(user.id, user.name, this.tour.id, this.selectedDate);
       this.successMessage = `Successfully registered for ${this.selectedDate}!`;
       setTimeout(() => this.successMessage = '', 3000);
       

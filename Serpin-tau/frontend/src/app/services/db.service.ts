@@ -254,6 +254,10 @@ export class DbService {
     return data ? JSON.parse(data) : [];
   }
   
+  getBookingsByUser(userId: number): Booking[] {
+    return this.getBookings().filter(b => b.userId === userId);
+  }
+  
   createBooking(bookingData: Partial<Booking>): Booking {
     const bookings = this.getBookings();
     const newBooking: Booking = { 
@@ -265,6 +269,28 @@ export class DbService {
     bookings.push(newBooking);
     localStorage.setItem(this.KEYS.BOOKINGS, JSON.stringify(bookings));
     return newBooking;
+  }
+
+  cancelBooking(bookingId: number): void {
+    const bookings = this.getBookings();
+    const index = bookings.findIndex(b => b.id === bookingId);
+    
+    if (index !== -1 && bookings[index].status !== 'cancelled') {
+      const tourId = bookings[index].tourId;
+      const selectedDate = bookings[index].selectedDate;
+      bookings[index].status = 'cancelled';
+      localStorage.setItem(this.KEYS.BOOKINGS, JSON.stringify(bookings));
+      
+      const tours = this.getTours();
+      const tourIndex = tours.findIndex(t => t.id === tourId);
+      if (tourIndex !== -1) {
+        if (tours[tourIndex].bookings > 0) tours[tourIndex].bookings--;
+        if (selectedDate && tours[tourIndex].dateBookings && tours[tourIndex].dateBookings[selectedDate] > 0) {
+          tours[tourIndex].dateBookings[selectedDate]--;
+        }
+        localStorage.setItem(this.KEYS.TOURS, JSON.stringify(tours));
+      }
+    }
   }
 
   getCurrentUser(): User | null {

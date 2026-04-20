@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DbService } from './db.service';
-import { Tour } from './db.service';
+import { Tour, Booking } from './db.service';
 
 @Injectable({ providedIn: 'root' })
 export class TourService {
@@ -30,11 +30,18 @@ export class TourService {
     return this.dbService.getTours().filter(t => t.organizerId === organizerId);
   }
 
-  bookTourByDate(userId: number, tourId: number, selectedDate: string): void {
+  getBookingsByUser(userId: number): Booking[] {
+    return this.dbService.getBookingsByUser(userId);
+  }
+
+  cancelBooking(bookingId: number): void {
+    this.dbService.cancelBooking(bookingId);
+  }
+
+  bookTourByDate(userId: number, userName: string, tourId: number, selectedDate: string): void {
     const tour = this.getTour(tourId);
-    const user = this.dbService.getUser(userId);
     
-    if (tour && user) {
+    if (tour) {
       if (!tour.dateBookings) {
         tour.dateBookings = {};
       }
@@ -53,7 +60,7 @@ export class TourService {
       this.dbService.createBooking({
         userId, 
         tourId, 
-        userName: user.name, 
+        userName: userName, 
         tourTitle: tour.title,
         selectedDate: selectedDate,
         status: 'confirmed'
@@ -61,18 +68,17 @@ export class TourService {
     }
   }
 
-  bookTour(userId: number, tourId: number): void {
+  bookTour(userId: number, userName: string, tourId: number): void {
     const tour = this.getTour(tourId);
-    const user = this.dbService.getUser(userId);
     
-    if (tour && user) {
+    if (tour) {
       tour.bookings++;
       this.updateTour(tourId, { bookings: tour.bookings });
       
       this.dbService.createBooking({
         userId, 
         tourId, 
-        userName: user.name, 
+        userName: userName, 
         tourTitle: tour.title,
         status: 'confirmed'
       });
