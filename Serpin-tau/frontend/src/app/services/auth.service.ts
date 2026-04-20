@@ -42,13 +42,26 @@ export class AuthService {
     );
   }
 
-  register(name: string, email: string, password: string, role: 'user' | 'organizer' = 'user'): boolean {
-    const existingUser = this.dbService.getUsers().find(u => u.email === email);
+  register(
+    name: string,
+    email: string,
+    password: string,
+    role: 'user' | 'organizer' = 'user'
+  ): boolean {
+    const existingUser = this.dbService.getUsers().find(
+      u => u.email.toLowerCase() === email.toLowerCase()
+    );
+
     if (existingUser) {
       return false;
     }
 
-    const newUser = this.dbService.createUser({ name, email, role });
+    const newUser = this.dbService.createUser({
+      name,
+      email,
+      role
+    });
+
     this.dbService.setCurrentUser(newUser);
     this.currentUserSubject.next(newUser);
     return true;

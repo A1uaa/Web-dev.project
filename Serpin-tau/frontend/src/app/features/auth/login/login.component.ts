@@ -23,14 +23,11 @@ export class LoginComponent {
 
   onSubmit(): void {
     this.error = '';
-
-    this.authService.login(this.email, this.password).subscribe({
-      next: () => {
-        this.router.navigate(['/tours']);
-      },
-      error: () => {
-        this.error = 'Invalid email or password';
-      }
-    });
-  }
+  
+    if (this.authService.login(this.email, this.password)) {
+      this.router.navigate(['/tours']);
+    } else {
+      this.error = 'Invalid email or password';
+    }
+  };
 }

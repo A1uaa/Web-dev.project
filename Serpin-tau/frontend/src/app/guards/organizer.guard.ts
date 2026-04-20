@@ -1,4 +1,3 @@
-// src/app/guards/organizer.guard.ts
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
@@ -7,13 +6,19 @@ import { AuthService } from '../services/auth.service';
   providedIn: 'root'
 })
 export class OrganizerGuard implements CanActivate {
+
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(): boolean {
-    if (this.authService.isOrganizer()) {
+    const user = this.authService.getCurrentUser();
+
+    console.log('GUARD USER:', user);
+
+    if (user && user.role === 'organizer') {
       return true;
     }
-    this.router.navigate(['/tours']);
+
+    this.router.navigate(['/login']);
     return false;
   }
 }
