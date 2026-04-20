@@ -26,15 +26,40 @@
       <div class="filter-group">
         <h4>Difficulty</h4>
         <label *ngFor="let d of difficulties">
-          <input type="checkbox" [value]="d" (change)="onDifficultyChange(d)"> {{ d }}
+          <input
+            type="checkbox"
+            [checked]="isDifficultySelected(d)"
+            (change)="toggleDifficulty(d)">
+          {{ d }}
         </label>
       </div>
 
       <div class="filter-group">
         <h4>Duration</h4>
-        <label><input type="checkbox"> 1-3 Days</label>
-        <label><input type="checkbox"> 4-7 Days</label>
-        <label><input type="checkbox"> 8+ Days</label>
+
+          <label>
+            <input
+              type="checkbox"
+              [checked]="isDurationSelected('1-3')"
+              (change)="toggleDuration('1-3')">
+            1-3 Days
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              [checked]="isDurationSelected('4-7')"
+              (change)="toggleDuration('4-7')">
+            4-7 Days
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              [checked]="isDurationSelected('8+')"
+              (change)="toggleDuration('8+')">
+            8+ Days
+          </label>
       </div>
 
       <button class="apply-filters" (click)="applyFilters()">Apply Filters</button>

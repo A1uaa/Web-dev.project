@@ -1,4 +1,3 @@
-// src/app/features/tours/tour-list/tour-list.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -18,12 +17,21 @@ import { TourCardComponent } from '../tour-card/tour-card.component';
 export class TourListComponent implements OnInit {
   tours: Tour[] = [];
   filteredTours: Tour[] = [];
+
   searchTerm = '';
-  selectedDifficulty = '';
+
+  // теперь можно выбирать несколько difficulty
+  selectedDifficulties: string[] = [];
+
+  // теперь можно выбирать несколько duration
+  selectedDurations: string[] = [];
+
   sortBy = 'popular';
   selectedPriceRange = 'all';
 
   difficulties = ['Easy', 'Moderate', 'Challenging'];
+  durationOptions = ['1-3', '4-7', '8+'];
+
   sortOptions = [
     { value: 'popular', label: 'Popular' },
     { value: 'price_low', label: 'Price: Low to High' },
@@ -45,8 +53,23 @@ export class TourListComponent implements OnInit {
     this.applyFilters();
   }
 
-  onDifficultyChange(difficulty: string): void {
-    this.selectedDifficulty = difficulty;
+  toggleDifficulty(difficulty: string): void {
+    if (this.selectedDifficulties.includes(difficulty)) {
+      this.selectedDifficulties = this.selectedDifficulties.filter(d => d !== difficulty);
+    } else {
+      this.selectedDifficulties = [...this.selectedDifficulties, difficulty];
+    }
+
+    this.applyFilters();
+  }
+
+  toggleDuration(duration: string): void {
+    if (this.selectedDurations.includes(duration)) {
+      this.selectedDurations = this.selectedDurations.filter(d => d !== duration);
+    } else {
+      this.selectedDurations = [...this.selectedDurations, duration];
+    }
+
     this.applyFilters();
   }
 
@@ -55,13 +78,42 @@ export class TourListComponent implements OnInit {
     this.applyFilters();
   }
 
+  matchesDuration(durationValue: number): boolean {
+    if (this.selectedDurations.length === 0) {
+      return true;
+    }
+
+    return this.selectedDurations.some(duration => {
+      if (duration === '1-3') {
+        return durationValue >= 1 && durationValue <= 3;
+      }
+
+      if (duration === '4-7') {
+        return durationValue >= 4 && durationValue <= 7;
+      }
+
+      if (duration === '8+') {
+        return durationValue >= 8;
+      }
+
+      return false;
+    });
+  }
+
   applyFilters(): void {
     this.filteredTours = this.tours.filter(tour => {
-      const matchesSearch = tour.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                           tour.location.toLowerCase().includes(this.searchTerm.toLowerCase());
-      const matchesDifficulty = !this.selectedDifficulty || tour.difficulty === this.selectedDifficulty;
-      
+      const matchesSearch =
+        tour.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        tour.location.toLowerCase().includes(this.searchTerm.toLowerCase());
+
+      const matchesDifficulty =
+        this.selectedDifficulties.length === 0 ||
+        this.selectedDifficulties.includes(tour.difficulty);
+
+      const matchesDuration = this.matchesDuration(tour.duration);
+
       let matchesPrice = true;
+
       if (this.selectedPriceRange === '0-200') {
         matchesPrice = tour.price <= 200;
       } else if (this.selectedPriceRange === '200-500') {
@@ -69,15 +121,15 @@ export class TourListComponent implements OnInit {
       } else if (this.selectedPriceRange === '500+') {
         matchesPrice = tour.price >= 500;
       }
-      
-      return matchesSearch && matchesDifficulty && matchesPrice;
+
+      return matchesSearch && matchesDifficulty && matchesDuration && matchesPrice;
     });
 
     this.sortTours();
   }
 
   sortTours(): void {
-    switch(this.sortBy) {
+    switch (this.sortBy) {
       case 'price_low':
         this.filteredTours.sort((a, b) => a.price - b.price);
         break;
@@ -94,5 +146,22 @@ export class TourListComponent implements OnInit {
 
   onSortChange(): void {
     this.sortTours();
+  }
+
+  isDifficultySelected(difficulty: string): boolean {
+    return this.selectedDifficulties.includes(difficulty);
+  }
+
+  isDurationSelected(duration: string): boolean {
+    return this.selectedDurations.includes(duration);
+  }
+
+  clearFilters(): void {
+    this.searchTerm = '';
+    this.selectedDifficulties = [];
+    this.selectedDurations = [];
+    this.selectedPriceRange = 'all';
+    this.sortBy = 'popular';
+    this.applyFilters();
   }
 }
