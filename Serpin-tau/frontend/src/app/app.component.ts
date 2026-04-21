@@ -12,5 +12,5 @@ import { FooterComponent } from './core/footer/footer.component';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'MountainTours';
+  title = 'Serpin-tau';
 }
