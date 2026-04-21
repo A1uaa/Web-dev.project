@@ -1,0 +1,5 @@
+$kind: http-request
+name: Create Masterclass
+url: ""
+method: GET
+order: 4163043553864001

@@ -1,0 +1,5 @@
+$kind: http-request
+name: Delete POST
+url: ""
+method: GET
+order: 4354282019638556

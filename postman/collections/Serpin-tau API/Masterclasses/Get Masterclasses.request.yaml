@@ -1,0 +1,5 @@
+$kind: http-request
+name: Get Masterclasses
+url: ""
+method: GET
+order: 1776757214694
